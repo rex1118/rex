@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>렉스 · 옷장</title>
+  <link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/fo/fonetree/fonetree.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .dress-head { display:flex; align-items:center; gap:9px; margin-bottom:6px; }
+    .dress-head .t { font-size:22px; font-weight:800; color:var(--main-dark); }
+    .dress-sub { font-size:13px; color:var(--text-soft); margin-bottom:16px; }
+    .cat-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+    .cat-tab { padding:9px 18px; border-radius:999px; border:1.5px solid var(--main-light); background:var(--card); color:var(--main-dark); font-size:14px; font-weight:600; cursor:pointer; transition:all var(--transition); }
+    .cat-tab.active { background:var(--main); color:#fff; border-color:var(--main); }
+    .item-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    @media (max-width:900px){ .item-grid { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:560px){ .item-grid { grid-template-columns:repeat(2,1fr); gap:10px; } }
+    .item-card { background:var(--card); border:1.5px solid var(--main-light); border-radius:18px; overflow:hidden; cursor:pointer; transition:transform var(--transition), box-shadow var(--transition); }
+    .item-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-hover); }
+    .item-img { position:relative; width:100%; aspect-ratio:3/4; background:var(--bg); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .item-img img { width:100%; height:100%; object-fit:cover; }
+    .item-img .ph { font-size:32px; opacity:.4; }
+    .badge-wrap { position:absolute; top:8px; left:8px; display:flex; gap:4px; flex-wrap:wrap; }
+    .badge { font-size:10px; font-weight:700; background:var(--main); color:#fff; padding:2px 8px; border-radius:999px; }
+    .item-info { padding:12px 14px; }
+    .item-name { font-size:14px; font-weight:700; color:var(--text); }
+    .item-desc { font-size:12px; color:var(--text-soft); margin-top:4px; }
+    .empty { text-align:center; padding:50px 0; color:var(--text-soft); }
+    .empty-icon { font-size:40px; margin-bottom:10px; }
+    /* 라이트박스 (클릭 확대) */
+    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:600; padding:20px; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:90%; max-height:80%; border-radius:14px; }
+    .lightbox-cap { position:absolute; bottom:30px; left:0; right:0; text-align:center; color:#fff; font-size:15px; font-weight:600; }
+    .lightbox-close { position:absolute; top:20px; right:24px; color:#fff; font-size:34px; cursor:pointer; line-height:1; }
+    body.dark .item-card, body.dark .cat-tab { background:var(--card); }
+  </style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a href="../index.html" class="nav-logo">렉스</a>
+  <a href="../index.html">프로필</a>
+  <a href="../notice/">공지</a>
+  <a href="../schedule/">일정</a>
+  <a href="../work/">업보</a>
+  <a href="index.html" class="active">옷장</a>
+  <button class="theme-switch" id="themeSwitch" type="button" aria-label="다크모드 전환"><span class="knob" id="themeKnob">🌙</span></button>
+</div></nav>
+
+<div class="container stagger">
+  <div class="card">
+    <div class="dress-head"><span style="font-size:22px">👗</span><span class="t">옷장</span></div>
+    <div class="dress-sub">렉스의 헤어 · 렌즈 · 의상을 확인해요. 이미지를 누르면 크게 볼 수 있어요</div>
+    <div class="cat-tabs" id="cat-tabs">
+      <button class="cat-tab active" data-cat="hair" onclick="filterCat('hair',this)">헤어</button>
+      <button class="cat-tab" data-cat="lens" onclick="filterCat('lens',this)">렌즈</button>
+      <button class="cat-tab" data-cat="outfit" onclick="filterCat('outfit',this)">의상</button>
+    </div>
+    <div id="dress-body"><div class="spinner"></div></div>
+  </div>
+</div>
+<footer style="margin-top:-48px; color:#000; font-size:14px; line-height:1.7; text-align:center;">Copyright © 2026 렉스 Official. All rights reserved.<br>비지니스 문의 - Discord DM</footer>
+
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLb()">
+  <span class="lightbox-close" onclick="closeLb()">×</span>
+  <img id="lb-img" src="" alt="">
+  <div class="lightbox-cap" id="lb-cap"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../supabase.js"></script>
+<script>
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  const LABELS = { hair:'헤어', lens:'렌즈', outfit:'의상' };
+  let allItems = [];
+  let curCat = 'hair';
+
+  async function load(){
+    try {
+      const { data } = await db.from('dress_items').select('*').order('sort_order').order('created_at');
+      allItems = data || [];
+    } catch(e) { allItems = []; }
+    render();
+  }
+
+  function render(){
+    const body = document.getElementById('dress-body');
+    const items = allItems.filter(i => i.category === curCat);
+    if (!items.length){
+      body.innerHTML = '<div class="empty"><div class="empty-icon">👗</div>' + LABELS[curCat] + ' 항목이 없어요</div>';
+      return;
+    }
+    body.innerHTML = '<div class="item-grid">' + items.map(item => {
+      const badges = (item.badges||[]).map(b => `<span class="badge">${esc(b.label||b)}</span>`).join('');
+      const img = item.image_url
+        ? `<img src="${item.image_url}" alt="${esc(item.name)}" loading="lazy">`
+        : `<span class="ph">👗</span>`;
+      return `<div class="item-card" onclick="lb('${item.image_url||''}','${esc(item.name)}')">
+        <div class="item-img">${badges?`<div class="badge-wrap">${badges}</div>`:''}${img}</div>
+        <div class="item-info">
+          <p class="item-name">${esc(item.name)}</p>
+          ${item.description?`<p class="item-desc">${esc(item.description)}</p>`:''}
+        </div>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  function filterCat(cat, el){
+    curCat = cat;
+    document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    render();
+  }
+
+  function lb(src, cap){
+    if(!src) return;
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb-cap').textContent = cap;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLb(){ document.getElementById('lightbox').classList.remove('open'); }
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLb(); });
+
+  load();
+</script>
+<script>
+(function(){
+  if (localStorage.getItem('theme') !== 'light') document.body.classList.add('dark');
+  var sw = document.getElementById('themeSwitch');
+  var knob = document.getElementById('themeKnob');
+  function refresh(){ if(knob) knob.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if (sw) sw.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    refresh();
+  });
+  refresh();
+})();
+</script>
+<script src="../fx.js"></script>
+</body>
+</html>
