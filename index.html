@@ -17,7 +17,7 @@
     :root{
       --bg:#13161A; --bg2:#0E1115; --card:#1C222A; --main:#65D57D; --soft:#9FE8B0; --line:rgba(101,213,125,.16);
       --text:#E8EDE9; --tsoft:#9AA69D; --pink:#F0A6B3; --page:760px;
-      --banner-h:338px; --hand:'Nanum Pen Script',cursive; --pen:'Noto Sans KR',sans-serif;
+      --banner-h:220px; --hand:'Nanum Pen Script',cursive; --pen:'Noto Sans KR',sans-serif;
     }
     body.dim{ --bg:#1A2027; --bg2:#151B22; --card:#242C35; --text:#F2F7F3; --tsoft:#A7B3AA; }
     *{ margin:0; padding:0; box-sizing:border-box; }
@@ -37,6 +37,7 @@
     .band .bgimg{ position:absolute; inset:0; background-size:cover; background-position:center; background-repeat:no-repeat; }
     .band .bgimg.blur{ filter:blur(30px) brightness(.62); transform:scale(1.35); }
     .band .grad{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(13,22,18,.2) 0%, rgba(13,20,24,.7) 100%); }
+    .band .grad.soft{ background:linear-gradient(180deg, rgba(0,0,0,0) 58%, rgba(13,20,24,.5) 100%); }
     .band .iq{ position:absolute; top:16px; right:16px; z-index:3; background:rgba(0,0,0,.32); border:1px solid rgba(255,255,255,.28); color:#fff; font-size:15px; font-weight:700; padding:9px 16px; border-radius:999px; cursor:pointer; backdrop-filter:blur(6px); }
     .band .iq:hover{ background:var(--main); color:#0e1a12; border-color:var(--main); }
     .head{ display:flex; align-items:flex-end; justify-content:space-between; gap:14px; padding:0 10px; margin-top:-66px; position:relative; z-index:2; flex-wrap:wrap; }
@@ -96,7 +97,7 @@
 <div class="profile">
   <div class="band">
     <div class="bgimg" id="bannerImg"></div>
-    <div class="grad"></div>
+    <div class="grad" id="bannerGrad"></div>
     <button class="iq" onclick="openInquiry()">✉️ 문의</button>
   </div>
   <div class="head">
@@ -207,10 +208,10 @@
     if(avatarUrl && img){ img.src=avatarUrl; img.style.display='block'; if(em) em.style.display='none'; }
 
     // 배너: 직접 배너 URL이 있으면 그걸(중앙), 없으면 SOOP 프사를 흐리게 깔아 연동
-    const bg=document.getElementById('bannerImg');
+    const bg=document.getElementById('bannerImg'), grad=document.getElementById('bannerGrad');
     if(bg){
-      if(d.banner){ bg.style.backgroundImage=`url("${d.banner}")`; bg.classList.remove('blur'); }
-      else if(avatarUrl){ bg.style.backgroundImage=`url("${avatarUrl}")`; bg.classList.add('blur'); }
+      if(d.banner){ bg.style.backgroundImage=`url("${d.banner}")`; bg.classList.remove('blur'); if(grad) grad.classList.add('soft'); }
+      else if(avatarUrl){ bg.style.backgroundImage=`url("${avatarUrl}")`; bg.classList.add('blur'); if(grad) grad.classList.remove('soft'); }
     }
 
     const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v||''; };
