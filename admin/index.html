@@ -59,49 +59,61 @@
   <!-- 프로필 탭 -->
   <div class="tab-panel active" id="tab-profile">
     <div class="card">
-      <div class="card-title">🖼 프로필 사진</div>
+      <div class="card-title">🖼 프로필 사진 &amp; 배너</div>
       <div class="form-field">
-        <label class="input-label">프사 이미지 링크 (URL) — 추천 ⭐</label>
+        <label class="input-label">프사 이미지 링크 (URL) — 비우면 SOOP 자동연동</label>
         <input class="input" id="f-avatar" type="url" placeholder="https://.../image.png" oninput="previewAvatar()">
-        <div style="font-size:11px;color:var(--text-soft);margin-top:6px">원하는 이미지 주소(.png/.jpg/.gif)를 넣으면 <b>이 링크가 우선</b> 사용돼요 (SOOP 대신).</div>
       </div>
       <div class="form-field">
-        <label class="input-label">SOOP 아이디 (위 링크를 비우면 이걸로 자동 연동)</label>
+        <label class="input-label">SOOP 아이디 (프사 자동연동)</label>
         <input class="input" id="f-soop-id" type="text" placeholder="fonetree" oninput="previewAvatar()">
       </div>
       <div class="form-field">
-        <label class="input-label">상단 배너 이미지 링크 (URL) — 비우면 기본 초록 배경</label>
-        <input class="input" id="f-banner" type="url" placeholder="https://.../banner.png (가로로 긴 이미지, 예: 1500×500)">
-        <div style="font-size:11px;color:var(--text-soft);margin-top:6px">메인 페이지 맨 위 배너에 들어가요. 직접 이미지 주소(.png/.jpg)를 넣으면 그 그림으로 바뀌어요.</div>
+        <label class="input-label">상단 배너 이미지 링크 (URL) — 비우면 SOOP 프사 흐림</label>
+        <input class="input" id="f-banner" type="url" placeholder="https://.../banner.png (가로로 긴 이미지)">
+        <div style="font-size:12px;color:var(--text-soft);margin-top:6px">SOOP 대문 일러스트에 우클릭 → "이미지 주소 복사" → 여기에 붙여넣기</div>
       </div>
       <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
         <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--main-light);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px">
           <img id="av-preview" alt="" style="width:100%;height:100%;object-fit:cover;display:none" onerror="this.style.display='none';var p=document.getElementById('av-ph');if(p)p.style.display='flex'">
-          <span id="av-ph">🙂</span>
+          <span id="av-ph">🦖</span>
         </div>
-        <span style="font-size:12px;color:var(--text-soft)">← 실제로 표시될 프사 미리보기</span>
+        <span style="font-size:12px;color:var(--text-soft)">← 프사 미리보기</span>
         <button class="btn btn-primary" style="margin-left:auto" onclick="saveLocalProfile()">저장 ♥</button>
       </div>
     </div>
+
     <div class="card">
-      <div class="card-title">⭐ 한마디 & 하고픈 말</div>
-      <div class="form-field"><label class="input-label">제목 옆 한줄 텍스트</label><input class="input" id="f-head-sub" type="text"></div>
-      <div class="form-field"><label class="input-label">오늘의 한마디 (줄바꿈=엔터)</label><textarea class="input" id="f-quote" rows="3"></textarea></div>
-      <div class="form-field"><label class="input-label">하고픈 말</label><textarea class="input" id="f-msg" rows="3"></textarea></div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
-    </div>
-    <div class="card">
-      <div class="card-title">렉스 특징</div>
+      <div class="card-title">🦖 기본 정보</div>
       <div class="form-field"><label class="input-label">이름</label><input class="input" id="f-info-name" type="text"></div>
-      <div class="form-field"><label class="input-label">한마디로</label><input class="input" id="f-info-catchphrase" type="text"></div>
-      <div class="form-field"><label class="input-label">성격 태그 (쉼표 구분)</label><input class="input" id="f-info-tags" type="text"></div>
-      <div class="form-field"><label class="input-label">MBTI</label><input class="input" id="f-info-mbti" type="text"></div>
-      <div class="form-field"><label class="input-label">팬닉</label><input class="input" id="f-info-fandom" type="text"></div>
-      <div class="form-field"><label class="input-label">생일/데뷔</label><input class="input" id="f-info-dates" type="text"></div>
+      <div class="form-field"><label class="input-label">소개 윗줄 (예: 🦖 공룡 버튜버 · 개인세)</label><input class="input" id="f-info-eyebrow" type="text"></div>
+      <div class="form-field"><label class="input-label">한 줄 소개 (바이오)</label><input class="input" id="f-info-catchphrase" type="text"></div>
+      <div class="form-grid">
+        <div class="form-field"><label class="input-label">성별</label><input class="input" id="f-info-gender" type="text"></div>
+        <div class="form-field"><label class="input-label">팬닉</label><input class="input" id="f-info-fandom" type="text"></div>
+      </div>
+      <div class="form-field"><label class="input-label">데뷔·생일 표시 (예: 데뷔 2025.06.16 · 생일 11.18)</label><input class="input" id="f-info-dates" type="text"></div>
+      <div class="form-field"><label class="input-label">생일 (D-day 계산용, MM-DD · 예: 11-18)</label><input class="input" id="f-birthday" type="text" placeholder="11-18"></div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
+
     <div class="card">
-      <div class="card-title">💗 좋아하는 것 · 싫어하는 것</div>
+      <div class="card-title">🦕 소개</div>
+      <div class="form-field"><label class="input-label">소개 문단</label><textarea class="input" id="f-info-about" rows="3"></textarea></div>
+      <div class="form-field"><label class="input-label">성격 태그 (쉼표로 구분)</label><input class="input" id="f-info-tags" type="text" placeholder="눈나미, 씩씩함, 잼민력 충전"></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📅 방송</div>
+      <div class="form-field"><label class="input-label">방송 (요일·시간)</label><input class="input" id="f-info-schedule" type="text" placeholder="주 5일 · 저녁 8시 · 휴방 2일(랜덤)"></div>
+      <div class="form-field"><label class="input-label">콘텐츠</label><input class="input" id="f-info-content" type="text" placeholder="저챗 · 종합게임"></div>
+      <div class="form-field"><label class="input-label">게임</label><input class="input" id="f-info-games" type="text" placeholder="스팀 종합게임 · FPS"></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💚 좋아하는 거 · 싫어하는 거</div>
       <div class="form-grid">
         <div class="form-field"><label class="input-label">좋아 1</label><input class="input" id="f-like1" type="text"></div>
         <div class="form-field"><label class="input-label">좋아 2</label><input class="input" id="f-like2" type="text"></div>
@@ -112,45 +124,24 @@
       </div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
+
     <div class="card">
-      <div class="card-title">♥ TMI</div>
-      <div class="form-field"><label class="input-label">좋아하는 음식</label><input class="input" id="f-tmi-food" type="text"></div>
-      <div class="form-field"><label class="input-label">요즘 듣는 노래</label><input class="input" id="f-tmi-song" type="text"></div>
-      <div class="form-field"><label class="input-label">최근 읽은 책</label><input class="input" id="f-tmi-book" type="text"></div>
+      <div class="card-title">🎤 노래</div>
+      <div class="form-field"><label class="input-label">노래 소개 문단</label><textarea class="input" id="f-info-song" rows="2"></textarea></div>
+      <div class="form-grid">
+        <div class="form-field"><label class="input-label">장르</label><input class="input" id="f-info-genre" type="text" placeholder="발라드"></div>
+        <div class="form-field"><label class="input-label">시그니처 곡</label><input class="input" id="f-info-signature" type="text" placeholder="♪ 에일리 — 손대지마"></div>
+      </div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
+
     <div class="card">
-      <div class="card-title">📅 방송 요일</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="day-checks">
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="0">일</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="1">월</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="2">화</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="3">수</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="4">목</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="5">금</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="6">토</label>
-      </div>
-      <input type="hidden" id="f-days">
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveDays()">저장 ♥</button></div>
-    </div>
-    <div class="card">
-      <div class="card-title">🎵 렉스 오리지널 곡</div>
-      <div class="form-grid">
-        <div class="form-field full"><label class="input-label">영상 제목 *</label><input class="input" id="os-title" placeholder="예: 노래 제목"></div>
-        <div class="form-field full"><label class="input-label">SOOP VOD ID *</label><input class="input" id="os-vod" placeholder="194780409"></div>
-        <div class="form-field full"><label class="input-label">썸네일 URL (선택 · 비우면 자동 시도)</label><input class="input" id="os-thumb" placeholder="https:// (선택)"></div>
-        <div class="form-field full" style="font-size:12px;color:var(--text-soft)">💡 SOOP VOD 주소 sooplive.com/아이디/v/<b>194780409</b> 에서 숫자 부분만 입력</div>
-        <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="addOriginalSong()">+ 추가</button></div>
-      </div>
-      <div id="os-list" style="margin-top:6px"></div>
-    </div>
-      <div class="form-field"><label class="input-label">SOOP URL</label><input class="input" id="f-link-soop" type="url" placeholder="https://"></div>
-      <div class="form-field"><label class="input-label">YouTube URL</label><input class="input" id="f-link-youtube" type="url" placeholder="https://"></div>
-      <div class="form-field"><label class="input-label">Fan Cafe URL</label><input class="input" id="f-link-fancafe" type="url" placeholder="https://"></div>
-      <div class="form-field"><label class="input-label">Fancim URL</label><input class="input" id="f-link-fancim" type="url" placeholder="https://"></div>
-      <div class="form-field"><label class="input-label">M Fancim URL</label><input class="input" id="f-link-mfancim" type="url" placeholder="https://"></div>
-      <div class="form-field"><label class="input-label">♥ 버튼 URL</label><input class="input" id="f-link-heart" type="url" placeholder="https://"></div>
-      <div class="form-field"><label class="input-label">코드 버튼 URL</label><input class="input" id="f-link-code" type="url" placeholder="https://"></div>
+      <div class="card-title">📡 소속 크루 &amp; 버튼</div>
+      <div class="form-field"><label class="input-label">크루 이름 (예: 주파수)</label><input class="input" id="f-info-crew" type="text" placeholder="주파수"></div>
+      <div class="form-field"><label class="input-label">크루 설명</label><textarea class="input" id="f-info-crew-desc" rows="2"></textarea></div>
+      <div class="form-field"><label class="input-label">크루 카페 URL</label><input class="input" id="f-info-cafe" type="url" placeholder="https://cafe.naver.com/zoopasu"></div>
+      <div class="form-field"><label class="input-label">디스코드 URL (히어로 버튼)</label><input class="input" id="f-info-discord" type="url" placeholder="https://discord.gg/..."></div>
+      <div class="form-field"><label class="input-label">SOOP 방송국 URL (히어로 버튼)</label><input class="input" id="f-info-channel" type="url" placeholder="https://www.sooplive.com/station/fonetree"></div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
   </div>
@@ -308,54 +299,6 @@
     </div>
   </div>
 
-  <!-- 일기 탭 -->
-  <div class="tab-panel" id="tab-diary">
-    <div class="card">
-      <div class="card-title">일기 추가</div>
-      <div class="form-grid">
-        <div class="form-field"><label class="input-label">제목 *</label><input class="input" id="diary-title"></div>
-        <div class="form-field"><label class="input-label">기분 이모지</label>
-          <select class="input" id="diary-mood">
-            <option>😊</option><option>😄</option><option>🥰</option><option>😢</option>
-            <option>😡</option><option>🤔</option><option>😴</option><option>🎉</option>
-            <option>💪</option><option>🌸</option>
-          </select>
-        </div>
-        <div class="form-field full"><label class="input-label">내용</label><textarea class="input" id="diary-content" rows="5"></textarea></div>
-        <div class="form-field full"><label class="input-label">이미지 링크 (여러 개면 줄바꿈으로 붙여넣기)</label><textarea id="diary-image-url" class="input" rows="2" placeholder="https://... (한 줄에 하나씩)"></textarea></div>
-        <div class="form-field"><label class="input-label">날짜</label><input class="input" id="diary-date" type="date"></div>
-        <div class="form-field" style="display:flex;align-items:flex-end"><button class="btn btn-primary" onclick="addDiary()">+ 추가</button></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">등록된 일기</div>
-      <div class="table-wrap"><table><thead><tr><th>날짜</th><th>기분</th><th>제목</th><th>삭제</th></tr></thead>
-      <tbody id="diary-list"><tr><td colspan="4"><div class="spinner"></div></td></tr></tbody></table></div>
-    </div>
-  </div>
-
-  <!-- 노래 탭 -->
-  <div class="tab-panel" id="tab-song">
-    <div class="card">
-      <div class="card-title">곡 추가</div>
-      <div class="form-grid">
-        <div class="form-field"><label class="input-label">장르</label>
-          <select class="input" id="song-genre"><option>K-Pop</option><option>J-Pop</option><option>Pop</option><option>애교송</option><option>기타</option></select>
-        </div>
-        <div class="form-field"><label class="input-label">아티스트</label><input class="input" id="song-artist" placeholder="아티스트명"></div>
-        <div class="form-field"><label class="input-label">제목 *</label><input class="input" id="song-title" placeholder="곡명"></div>
-        <div class="form-field"><label class="input-label">난이도 (1~5)</label><input class="input" id="song-diff" type="number" min="1" max="5" value="3"></div>
-        <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="addSong()">+ 추가</button></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">노래 목록</div>
-      <input class="input" id="song-search" placeholder="🔍 검색..." style="margin-bottom:12px" oninput="renderSongs()">
-      <div class="table-wrap"><table><thead><tr><th>제목</th><th>아티스트</th><th>장르</th><th>난이도</th><th>삭제</th></tr></thead>
-      <tbody id="song-list"><tr><td colspan="5"><div class="spinner"></div></td></tr></tbody></table></div>
-    </div>
-  </div>
-
   <!-- 옷장 탭 -->
   <div class="tab-panel" id="tab-dress">
     <div class="card">
@@ -398,11 +341,13 @@
   const ADMIN_PASSWORD = 'rex1118';
 
   const profileKeys = [
-    'avatar','banner','head-sub','quote','msg','soop-id',
-    'info-name','info-catchphrase','info-tags','info-mbti','info-fandom','info-dates',
-    'like1','like2','like3','like4','dislike1','dislike2',
-    'tmi-food','tmi-song','tmi-book','days',
-    'link-soop','link-youtube','link-fancafe','link-fancim','link-mfancim','link-heart','link-code'
+    'avatar','banner','soop-id',
+    'info-name','info-eyebrow','info-catchphrase','info-gender','info-fandom','info-dates','birthday',
+    'info-about','info-tags',
+    'info-schedule','info-content','info-games',
+    'info-song','info-genre','info-signature',
+    'info-crew','info-crew-desc','info-cafe','info-discord','info-channel',
+    'like1','like2','like3','like4','dislike1','dislike2'
   ];
 
   function tryLogin() {
@@ -410,7 +355,7 @@
       document.getElementById('loginOverlay').style.display = 'none';
       document.getElementById('adminBody').style.display = 'flex';
       loadProfileFields();
-      loadNotice(); loadSchedule(); loadWork(); loadDiary(); loadSong(); loadDress(); loadInquiry(); loadOriginalSongs();
+      loadNotice(); loadSchedule(); loadWork(); loadDress(); loadInquiry();
     } else {
       document.getElementById('loginErr').textContent = '비밀번호가 틀렸어요 >﹏<';
     }

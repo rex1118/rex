@@ -106,16 +106,16 @@
       <span id="avatarEmoji">🦖</span>
     </div>
     <div class="hbtns">
-      <a class="btn fill" href="https://www.sooplive.com/station/fonetree" target="_blank" rel="noopener">📺 SOOP 방송국</a>
-      <a class="btn line" href="https://discord.gg/Ug9bsttu" target="_blank" rel="noopener">💬 디스코드</a>
+      <a class="btn fill" id="btn-soop" href="https://www.sooplive.com/station/fonetree" target="_blank" rel="noopener">📺 SOOP 방송국</a>
+      <a class="btn line" id="btn-discord" href="https://discord.gg/Ug9bsttu" target="_blank" rel="noopener">💬 디스코드</a>
     </div>
   </div>
   <div class="pbody">
     <h1 class="pname" id="info-name">렉스</h1>
-    <div class="peb">🦖 공룡 버튜버 · 개인세</div>
+    <div class="peb" id="info-eyebrow">🦖 공룡 버튜버 · 개인세</div>
     <p class="pbio" id="info-catchphrase">우당탕탕 공룡 렉스!</p>
     <div class="meta">
-      <span class="chip">여</span>
+      <span class="chip" id="info-gender">여</span>
       <span class="chip" id="info-dates"></span>
       <span class="chip">팬닉 <b id="info-fandom"></b></span>
       <span class="chip day" id="dday-chip" style="display:none"><span id="dday"></span></span>
@@ -124,16 +124,16 @@
 
   <div class="card">
     <h2><span class="ic">🦕</span>렉스는 어떤 공룡?</h2>
-    <p>눈나미처럼 든든하다가도 가끔 <b>잼민이</b>가 톡 튀어나오는, 씩씩한 공룡이에요. 외모 포인트는 <b>공룡 눈</b>과 <b>송곳니</b>! 주로 저챗과 종합게임으로 만나요.</p>
+    <p id="info-about"></p>
     <div class="chips mt" id="info-tags"></div>
   </div>
 
   <div class="card">
     <h2><span class="ic">📅</span>방송</h2>
     <div class="rows">
-      <div class="r"><span class="k">방송</span><span class="v">주 5일 · 저녁 8시 · 휴방 2일(랜덤)</span></div>
-      <div class="r"><span class="k">콘텐츠</span><span class="v">저챗 · 종합게임</span></div>
-      <div class="r"><span class="k">게임</span><span class="v">스팀 종합게임 · FPS</span></div>
+      <div class="r"><span class="k">방송</span><span class="v" id="info-schedule"></span></div>
+      <div class="r"><span class="k">콘텐츠</span><span class="v" id="info-content"></span></div>
+      <div class="r"><span class="k">게임</span><span class="v" id="info-games"></span></div>
     </div>
   </div>
 
@@ -155,20 +155,19 @@
 
   <div class="card">
     <h2><span class="ic">🎤</span>노래</h2>
-    <p>가끔 불러요. 음치라며 부끄러워하지만 분위기는 확실히 챙기는 타입!</p>
+    <p id="info-song"></p>
     <div class="rows">
-      <div class="r"><span class="k">장르</span><span class="v">발라드</span></div>
-      <div class="r"><span class="k">시그니처</span><span class="v">♪ 에일리 — 손대지마</span></div>
+      <div class="r"><span class="k">장르</span><span class="v" id="info-genre"></span></div>
+      <div class="r"><span class="k">시그니처</span><span class="v" id="info-signature"></span></div>
     </div>
   </div>
 
   <div class="card">
     <h2><span class="ic">📡</span>소속 크루</h2>
-    <span class="crewbadge">📡 주파수 크루 소속</span>
-    <p>렉스는 <b>주파수</b> 크루 소속이에요. 크루 카페에 놀러오세요!</p>
+    <span class="crewbadge" id="info-crew-badge">📡 주파수 크루 소속</span>
+    <p id="info-crew-desc"></p>
     <div class="crewrow">
-      <a class="btn fill" href="https://cafe.naver.com/zoopasu" target="_blank" rel="noopener">☕ 주파수 카페</a>
-      <a class="btn line" href="https://discord.gg/Ug9bsttu" target="_blank" rel="noopener">💬 디스코드</a>
+      <a class="btn fill" id="btn-cafe" href="https://cafe.naver.com/zoopasu" target="_blank" rel="noopener">☕ 주파수 카페</a>
     </div>
   </div>
 </div>
@@ -188,12 +187,16 @@
   // DB(profile id=1)가 비어도 아래 기본값으로 보임. 관리자에서 바꾸면 그 값이 우선.
   const defaults = {
     'soop-id':'fonetree', avatar:'', banner:'',   // avatar/banner: 직접 이미지(.jpg/.png/.gif) URL 넣으면 우선
-    'info-name':'렉스', 'info-catchphrase':'우당탕탕 공룡 렉스!',
-    'info-tags':'눈나미, 씩씩함, 잼민력 충전', 'info-fandom':'고고',
-    'info-dates':'데뷔 2025.06.16 · 생일 11.18',
+    'info-name':'렉스', 'info-eyebrow':'🦖 공룡 버튜버 · 개인세', 'info-catchphrase':'우당탕탕 공룡 렉스!',
+    'info-gender':'여', 'info-dates':'데뷔 2025.06.16 · 생일 11.18', 'info-fandom':'고고', birthday:'11-18',
+    'info-about':'눈나미처럼 든든하다가도 가끔 잼민이가 톡 튀어나오는, 씩씩한 공룡이에요. 외모 포인트는 공룡 눈과 송곳니! 주로 저챗과 종합게임으로 만나요.',
+    'info-tags':'눈나미, 씩씩함, 잼민력 충전',
+    'info-schedule':'주 5일 · 저녁 8시 · 휴방 2일(랜덤)', 'info-content':'저챗 · 종합게임', 'info-games':'스팀 종합게임 · FPS',
+    'info-song':'가끔 불러요. 음치라며 부끄러워하지만 분위기는 확실히 챙기는 타입!', 'info-genre':'발라드', 'info-signature':'♪ 에일리 — 손대지마',
+    'info-crew':'주파수', 'info-crew-desc':'렉스는 주파수 크루 소속이에요. 크루 카페에 놀러오세요!',
+    'info-cafe':'https://cafe.naver.com/zoopasu', 'info-discord':'https://discord.gg/Ug9bsttu', 'info-channel':'https://www.sooplive.com/station/fonetree',
     like1:'고고 (오리 팬♡)', like2:'먹는 거', like3:'자는 거', like4:'게임',
     dislike1:'벌레 · 귀신', dislike2:'토마토 · 오이',
-    birthday:'11-18',
   };
   function soopAvatar(id){ if(!id) return null; id=id.trim().toLowerCase(); if(id.length<2) return null; return `https://profile.img.sooplive.co.kr/LOGO/${id.slice(0,2)}/${id}/${id}.jpg`; }
 
@@ -214,13 +217,26 @@
       else if(avatarUrl){ bg.style.backgroundImage=`url("${avatarUrl}")`; bg.classList.add('blur'); if(grad) grad.classList.remove('soft'); }
     }
 
-    const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v||''; };
-    set('info-name', d['info-name']); set('info-catchphrase', d['info-catchphrase']);
-    set('info-dates', d['info-dates']); set('info-fandom', d['info-fandom']);
+    const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=(v==null?'':v); };
+    const href=(id,v)=>{ const el=document.getElementById(id); if(el){ if(v){ el.href=v; el.style.display=''; } else { el.style.display='none'; } } };
 
+    // 기본 정보
+    set('info-name', d['info-name']); set('info-eyebrow', d['info-eyebrow']); set('info-catchphrase', d['info-catchphrase']);
+    set('info-gender', d['info-gender']); set('info-dates', d['info-dates']); set('info-fandom', d['info-fandom']);
+    // 소개 / 방송 / 노래
+    set('info-about', d['info-about']);
+    set('info-schedule', d['info-schedule']); set('info-content', d['info-content']); set('info-games', d['info-games']);
+    set('info-song', d['info-song']); set('info-genre', d['info-genre']); set('info-signature', d['info-signature']);
+    // 크루 + 버튼
+    const crew=(d['info-crew']||'').trim();
+    set('info-crew-badge', crew ? `📡 ${crew} 크루 소속` : '');
+    set('info-crew-desc', d['info-crew-desc']);
+    const cafeBtn=document.getElementById('btn-cafe'); if(cafeBtn) cafeBtn.textContent=`☕ ${crew||''} 카페`.replace('  ',' ');
+    href('btn-cafe', d['info-cafe']); href('btn-discord', d['info-discord']); href('btn-soop', d['info-channel']);
+
+    // 태그 / 좋아요 / 싫어요
     const tagsEl=document.getElementById('info-tags');
     if(tagsEl) tagsEl.innerHTML=(d['info-tags']||'').split(',').filter(t=>t.trim()).map(t=>`<span class="gchip">${t.trim()}</span>`).join('');
-
     ['like1','like2','like3','like4','dislike1','dislike2'].forEach(id=>{ const el=document.getElementById(id); if(el){ const v=(d[id]||'').trim(); el.textContent=v; el.style.display=v?'':'none'; } });
 
     // 생일 D-Day
