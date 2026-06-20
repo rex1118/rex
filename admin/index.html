@@ -69,6 +69,11 @@
         <label class="input-label">SOOP 아이디 (위 링크를 비우면 이걸로 자동 연동)</label>
         <input class="input" id="f-soop-id" type="text" placeholder="fonetree" oninput="previewAvatar()">
       </div>
+      <div class="form-field">
+        <label class="input-label">상단 배너 이미지 링크 (URL) — 비우면 기본 초록 배경</label>
+        <input class="input" id="f-banner" type="url" placeholder="https://.../banner.png (가로로 긴 이미지, 예: 1500×500)">
+        <div style="font-size:11px;color:var(--text-soft);margin-top:6px">메인 페이지 맨 위 배너에 들어가요. 직접 이미지 주소(.png/.jpg)를 넣으면 그 그림으로 바뀌어요.</div>
+      </div>
       <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
         <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--main-light);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px">
           <img id="av-preview" alt="" style="width:100%;height:100%;object-fit:cover;display:none" onerror="this.style.display='none';var p=document.getElementById('av-ph');if(p)p.style.display='flex'">
@@ -393,7 +398,7 @@
   const ADMIN_PASSWORD = 'rex1118';
 
   const profileKeys = [
-    'avatar','head-sub','quote','msg','soop-id',
+    'avatar','banner','head-sub','quote','msg','soop-id',
     'info-name','info-catchphrase','info-tags','info-mbti','info-fandom','info-dates',
     'like1','like2','like3','like4','dislike1','dislike2',
     'tmi-food','tmi-song','tmi-book','days',
