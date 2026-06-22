@@ -38,16 +38,17 @@ body.dark {
   --main-deep:   #C7F2D1;
   --main-light:  #243029;
   --bg:     #13161A;
-  --card:   #1D2227;
+  --card:   #1C222A;
   --logo:        #74E08D;   /* 다크: 밝은 초록 */
-  --text:        #E7ECE8;
-  --text-soft:   #8A968E;
+  --text:        #E8EDE9;
+  --text-soft:   #9AA69D;
   --text-mid:    #A6B2A9;
-  --white:       #1D2227;
+  --white:       #1C222A;
   --shadow:      0 4px 24px rgba(0, 0, 0, 0.5);
   --shadow-hover:0 8px 32px rgba(0, 0, 0, 0.6);
 }
 body.dark::before { display: none; }
+body.dark.dim { --bg: #1A2027; --card: #242C35; --text: #F2F7F3; --text-soft: #A7B3AA; }
 body { transition: background var(--transition), color var(--transition); }
 
 /* ── 다크모드 세로 토글 (노래책 오른쪽) ── */
@@ -66,7 +67,7 @@ body { transition: background var(--transition), color var(--transition); }
   box-shadow: 0 1px 4px rgba(0,0,0,.2);
 }
 body.dark .theme-switch { background: #22262e; }
-body.dark .theme-switch .knob { top: 14px; background: #181c22; }
+body.dark.dim .theme-switch .knob { top: 14px; }
 
 /* 다크모드 고정색 요소 보정 */
 body.dark .nav { background: rgba(18,18,19,0.92); }

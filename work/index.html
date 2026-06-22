@@ -174,13 +174,14 @@
 </script>
 <script>
 (function(){
-  if (localStorage.getItem('theme') !== 'light') document.body.classList.add('dark');
+  document.body.classList.add('dark');
+  if (localStorage.getItem('rexdim') === '1') document.body.classList.add('dim');
   var sw = document.getElementById('themeSwitch');
   var knob = document.getElementById('themeKnob');
-  function refresh(){ if(knob) knob.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  function refresh(){ if(knob) knob.textContent = document.body.classList.contains('dim') ? '☀️' : '🌙'; }
   if (sw) sw.addEventListener('click', function(){
-    document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    document.body.classList.toggle('dim');
+    localStorage.setItem('rexdim', document.body.classList.contains('dim') ? '1' : '0');
     refresh();
   });
   refresh();
