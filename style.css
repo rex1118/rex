@@ -70,7 +70,7 @@ body.dark .theme-switch .knob { top: 14px; background: #181c22; }
 
 /* 다크모드 고정색 요소 보정 */
 body.dark .nav { background: rgba(18,18,19,0.92); }
-body.dark footer { color: #e3e7ec !important; }
+body.dark footer { color: #9AA69D !important; }
 body.dark .input { background: var(--card); color: var(--text); }
 body.dark .page-btn { background: var(--card); color: var(--text); }
 body.dark .badge-white { background: var(--card); }
@@ -337,8 +337,8 @@ tr:hover td { background: var(--main-light); }
 
 /* ── 푸터 ── */
 footer {
-  text-align: center; padding: 24px;
-  font-size: 12px; color: var(--main-light);
+  max-width: var(--page-width); margin: 30px auto 0; padding: 0 16px 40px;
+  text-align: center; font-size: 14px; line-height: 1.9; color: #9AA69D;
   position: relative; z-index: 1;
 }
 
